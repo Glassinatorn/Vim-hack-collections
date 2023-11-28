@@ -15,7 +15,7 @@ GITDIR="$HOME/git/git_project"
 list=$(echo -e "$CONFIGDIR/awesome $GITDIR/tmp .gitignore")
 
 # defining command
-CMD="sudo rsync -razzP --del"
+CMD="rsync -razzP --del"
 
 while IFS= read -r line
 do
@@ -23,7 +23,9 @@ do
     DST=$(echo "$line" | cut -d ' ' -f 2)
     EXCL=$(echo "$line" | cut -d ' ' -f 3-)
 
-    $CMD --exclude "$3" $1 $2
+    CMD=$CMD" --exclude \"$EXCL\" $SRC $DST"
+    $CMD
+
 done <<< "$list"
 
 
